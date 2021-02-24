@@ -10,7 +10,10 @@ public class MokejimaiApiClientFactory {
         logger: PSLoggerProtocol? = nil
     ) -> MokejimaiApiClient {
         let interceptor = PSRequestAdapter(credentials: credentials, headers: headers)
-        let session = Session(interceptor: interceptor)
+        let session = Session(
+            interceptor: interceptor,
+            cachedResponseHandler: ResponseCacher(behavior: .doNotCache)
+        )
         
         return MokejimaiApiClient(
             session: session,
